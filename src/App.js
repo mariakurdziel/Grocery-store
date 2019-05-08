@@ -1,26 +1,34 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+//import NewComponent from './component/NewComponent';
+import ProductList from './component/ProductList';
+import ProductDetails from './component/ProductDetails';
+import {fruitsAndVegetables} from './mock/mock';
 
 class App extends Component {
+
+  state={
+    selectedItem: null
+  }
+
+  selectItem=id=>{
+    const selectedItem=fruitsAndVegetables.find(item=>item.id===id);
+    this.setState({selectedItem});
+  }
+
+  deselectItem=()=>{
+    this.setState({selectedItem: null})
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+     <div>
+     {
+       this.state.selectedItem ? 
+       <ProductDetails product={this.state.selectedItem} closeDetails={this.deselectItem}/> : 
+       <ProductList  products={fruitsAndVegetables} selectItem={this.selectItem}/> 
+       }
+     </div>
     );
   }
 }
